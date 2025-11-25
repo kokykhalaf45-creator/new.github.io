@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Fake Hack Prank</title>
+
+<style>
+    body{
+        margin:0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg,#000,#111,#000);
+        background-size:400% 400%;
+        animation:bgMove 10s infinite alternate;
+        color:white;
+        text-align:center;
+    }
+
+    @keyframes bgMove{
+        0%{background-position:0% 0%;}
+        100%{background-position:100% 100%;}
+    }
+
+    .hidden{display:none;}
+
+    .container{
+        margin-top:70px;
+    }
+
+    input, select{
+        padding:12px;
+        width:260px;
+        margin:10px;
+        border-radius:6px;
+        border:none;
+        font-size:17px;
+    }
+
+    button{
+        padding:14px 35px;
+        font-size:20px;
+        border:none;
+        border-radius:7px;
+        background:#00ff80;
+        color:#000;
+        font-weight:bold;
+        cursor:pointer;
+        transition:0.25s;
+    }
+
+    button:hover{
+        background:#00ff9c;
+        transform:scale(1.06);
+    }
+
+    .loaderBox{
+        width:80%;
+        height:25px;
+        margin:40px auto;
+        background:#222;
+        border-radius:12px;
+        overflow:hidden;
+    }
+
+    .loaderFill{
+        height:100%;
+        width:0%;
+        background:#13ff00;
+    }
+
+    .text{
+        margin-top:20px;
+        font-size:22px;
+        color:#ff4444;
+        font-weight:bold;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- شاشة إدخال البيانات -->
+<div class="container" id="screen2">
+    <h2>ادخل اسمك ورقم تليفونك</h2>
+
+    <input id="name" type="text" placeholder="اسمك"><br>
+
+    <select id="country">
+        <option value="eg">🇪🇬 رقم مصري</option>
+        <option value="sa">🇸🇦 رقم سعودي</option>
+        <option value="us">🇺🇸 رقم أمريكي</option>
+    </select><br>
+
+    <input id="phone" type="text" placeholder="رقم التليفون"><br>
+
+    <button onclick="gotoScreen3()">تم</button>
+</div>
+
+<!-- شاشة الاختراق الوهمية -->
+<div class="container hidden" id="screen3">
+    <h2>جاري التحميل...</h2>
+
+    <div class="loaderBox">
+        <div class="loaderFill" id="loader"></div>
+    </div>
+
+    <div class="text">يتم اختراق جهازك الآن...</div>
+</div>
+
+<script>
+
+function validateNumber(country, phone){
+    phone = phone.replace(/\D/g, "");
+
+    if(country === "eg"){
+        // 01 + (0-2 أو 5) + 8 أرقام
+        return /^01[0-2,5][0-9]{8}$/.test(phone);
+    }
+
+    if(country === "sa"){
+        // 05 + 8 أرقام
+        return /^05[0-9]{8}$/.test(phone);
+    }
+
+    if(country === "us"){
+        // 10 أرقام
+        return /^[0-9]{10}$/.test(phone);
+    }
+
+    return false;
+}
+
+
+function gotoScreen3(){
+
+    let name = document.getElementById("name").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let country = document.getElementById("country").value;
+
+    if(name === ""){
+        alert("اكتب اسمك يمعلم");
+        return;
+    }
+
+    if(!validateNumber(country, phone)){
+        alert("اكتب الرقم صح يمعلم");
+        return;
+    }
+
+    document.getElementById("screen2").classList.add("hidden");
+    document.getElementById("screen3").classList.remove("hidden");
+
+    let bar = document.getElementById("loader");
+    let load = 0;
+
+    let interval = setInterval(()=>{
+        load += 2;
+        bar.style.width = load + "%";
+
+        if(load >= 100){
+            clearInterval(interval);
+
+            setTimeout(()=>{
+                window.location.href = "https://google.com";
+            },400);
+        }
+    },140);
+}
+
+</script>
+
+</body>
+</html>
